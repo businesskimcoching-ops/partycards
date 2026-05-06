@@ -1,0 +1,207 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PartyCards Game</title>
+  <style>
+    /* Basic page styling */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    /* Screens are hidden until activated */
+    .screen {
+      display: none;
+      width: 100%;
+      max-width: 480px;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .screen.active {
+      display: block;
+    }
+
+    /* Home screen layout */
+    #home {
+      text-align: center;
+      margin-top: 40px;
+    }
+    #home img {
+      max-width: 80%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+    /* Buttons styling */
+    button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 18px;
+      border: none;
+      border-radius: 6px;
+      background: #3498db;
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    button:hover {
+      background: #2980b9;
+    }
+
+    /* Game screen layout */
+    #game {
+      text-align: center;
+    }
+    #deck {
+      width: 100%;
+      padding-top: 166%; /* 3:5 aspect ratio */
+      position: relative;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      transition: transform 0.4s ease;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+    #deck.flip {
+      transform: rotateY(180deg);
+    }
+    #remaining {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    #controls {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    #controls button {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <!-- Home screen -->
+  <div id="home" class="screen active">
+    <img id="home-logo" src="logo.jpg" alt="PartyCards Logo">
+    <button id="play-btn">Play</button>
+    <button id="how-to-btn">How to Play</button>
+  </div>
+
+  <!-- Game screen -->
+  <div id="game" class="screen">
+    <div id="deck"></div>
+    <div id="remaining"></div>
+    <div id="controls">
+      <button id="shuffle-btn">Shuffle</button>
+      <button id="restart-btn">Restart</button>
+    </div>
+  </div>
+
+  <script>
+    // List of card image paths. These images live in the Cards folder next to this file.
+    const cards = [
+      ...Array.from({ length: 50 }, (_, index) => {
+        const cardNumber = String(index + 1).padStart(2, '0');
+        return `Cards/Plain-Shot-Puno-template-${cardNumber}.png`;
+      }),
+      ...Array.from({ length: 50 }, (_, index) => {
+        const cardNumber = String(index + 1).padStart(2, '0');
+        return `Cards/Plain-Shot-Puno-template-Vol-2-${cardNumber}.png`;
+      })
+    ];
+
+    // Internal state
+    let deck = [];
+    let currentIndex = 0;
+
+    // DOM elements
+    const homeScreen = document.getElementById('home');
+    const gameScreen = document.getElementById('game');
+    const deckEl = document.getElementById('deck');
+    const remainingEl = document.getElementById('remaining');
+    const playBtn = document.getElementById('play-btn');
+    const howToBtn = document.getElementById('how-to-btn');
+    const shuffleBtn = document.getElementById('shuffle-btn');
+    const restartBtn = document.getElementById('restart-btn');
+
+    // Helper: shuffle the deck (Fisher-Yates)
+    function shuffleCards() {
+      // Copy the original card list
+      deck = cards.slice();
+      for (let i = deck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [deck[i], deck[j]] = [deck[j], deck[i]];
+      }
+      currentIndex = 0;
+      // Reset to show the back of the card
+      deckEl.style.backgroundImage = `url('partycards-01.png')`;
+      updateRemaining();
+    }
+
+    // Update remaining text
+    function updateRemaining() {
+      const remaining = deck.length - currentIndex;
+      if (remaining > 1) {
+        remainingEl.textContent = `${remaining} cards remaining`;
+      } else if (remaining === 1) {
+        remainingEl.textContent = `1 card remaining`;
+      } else {
+        remainingEl.textContent = `No cards left - shuffle to restart`;
+      }
+    }
+
+    // Flip to reveal the next card
+    function drawNextCard() {
+      if (currentIndex < deck.length) {
+        const nextImage = deck[currentIndex];
+        // Set the card image
+        deckEl.classList.add('flip');
+        setTimeout(() => {
+          deckEl.style.backgroundImage = `url('${nextImage}')`;
+          deckEl.classList.remove('flip');
+        }, 200);
+        currentIndex++;
+        updateRemaining();
+      }
+    }
+
+    // Event listeners
+    playBtn.addEventListener('click', () => {
+      homeScreen.classList.remove('active');
+      gameScreen.classList.add('active');
+      shuffleCards();
+    });
+
+    howToBtn.addEventListener('click', () => {
+      alert('PartyCards drinking game: players take turns drawing the top card and following the prompt. Tap the deck to draw. Shuffle to start over. Enjoy responsibly!');
+    });
+
+    shuffleBtn.addEventListener('click', () => {
+      shuffleCards();
+    });
+
+    restartBtn.addEventListener('click', () => {
+      gameScreen.classList.remove('active');
+      homeScreen.classList.add('active');
+      // Reset deck state when leaving the game
+      deck = [];
+      currentIndex = 0;
+    });
+
+    deckEl.addEventListener('click', drawNextCard);
+  </script>
+</body>
+</html>
+
