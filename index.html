@@ -79,8 +79,15 @@ input:focus{border-color:rgba(245,199,107,.65);box-shadow:0 0 0 4px rgba(245,199
 .card-back-face{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#fffaf0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .card-back-face img{width:100%;height:100%;object-fit:cover;display:block}
 .card-back-face.is-shot-puno img{width:40%;height:auto;max-height:40%;object-fit:contain}
-.card-back-face.is-close-ba-tayo object{width:70%;height:70%;background:transparent}
 .card-back-face object{width:100%;height:100%;border:0;display:block;background:white;pointer-events:none}
+.card-back-art{width:100%;height:100%;display:flex;align-items:center;justify-content:center;text-align:center;color:#201416;font-weight:950}
+.card-back-art .mark{display:flex;align-items:center;justify-content:center;flex-direction:column;line-height:.95}
+.back-sing{background:#f46222;color:#f46222}.back-sing .mark{width:72%;height:86%;border-radius:28px;background:white;font-size:clamp(42px,12vw,86px);letter-spacing:-.04em}.back-sing .tile{padding:.06em .12em;background:#129bb2;color:white}
+.back-double{background:white}.back-double .mark{gap:10px}.back-double .top{padding:8px 16px;border:4px solid #c12736;color:#c12736;font-size:32px}.back-double .logo{width:190px;height:190px;border-radius:50%;display:grid;place-items:center;background:repeating-conic-gradient(#f2b735 0 8deg,#5c8f76 8deg 16deg);color:white;text-shadow:0 3px 0 #111;font-size:32px}
+.back-swiftify{background:white}.back-swiftify .mark{gap:18px;color:#30364a}.back-swiftify .albums{display:grid;grid-template-columns:repeat(3,58px);grid-template-rows:repeat(3,58px);overflow:hidden}.back-swiftify .albums i:nth-child(1){background:#a6c4a3}.back-swiftify .albums i:nth-child(2){background:#edc17a}.back-swiftify .albums i:nth-child(3){background:#caa7cf}.back-swiftify .albums i:nth-child(4){background:#913740}.back-swiftify .albums i:nth-child(5){background:#344059}.back-swiftify .albums i:nth-child(6){background:#a7d8ee}.back-swiftify .albums i:nth-child(7){background:#777372}.back-swiftify .albums i:nth-child(8){background:#ef9ec0}.back-swiftify .albums i:nth-child(9){background:#d0ccc0}.back-swiftify .title{font-size:44px}
+.back-biniverse{background:#fffaf7;background-image:radial-gradient(circle at 25px 25px,#eaf1ff 0 14px,transparent 15px),radial-gradient(circle at 65px 65px,#eaf1ff 0 14px,transparent 15px);background-size:80px 80px;color:#e92882}.back-biniverse .title{font-size:48px;text-shadow:0 2px 0 #701547}.back-biniverse .sub{margin-top:8px;padding:8px 14px;border-radius:999px;background:#173b42;color:#ffd35c;font-size:24px}
+.back-himym{background:#a8cce5;background-image:radial-gradient(circle at 28px 28px,#2d58a1 0 10px,transparent 11px),radial-gradient(circle at 70px 86px,#ffd84a 0 14px,transparent 15px);background-size:96px 112px;color:#111}.back-himym .title{padding:12px;border-radius:14px;background:white;font-size:38px}.back-himym .sub{margin-top:8px;padding:8px 14px;border-radius:999px;background:#2b2b2b;color:white;font-size:22px}
+.back-close{background:white}.back-close .mark{width:70%;height:70%;position:relative}.back-close .bubble{position:absolute;border-radius:999px;background:#f28087;color:#111;font-size:clamp(28px,7vw,56px);padding:.18em .62em;transform:rotate(9deg);box-shadow:0 1px 0 rgba(0,0,0,.16)}.back-close .bubble:nth-child(2){background:#f6bac4;font-size:clamp(24px,5vw,42px);top:36%;left:2%;transform:rotate(-12deg)}.back-close .bubble:nth-child(3){font-size:clamp(18px,4vw,32px);top:58%;left:16%;transform:rotate(-9deg)}
 .card-front-face{position:absolute;inset:0;background:white;display:flex;align-items:center;justify-content:center}
 .card-front-face img{width:100%;height:100%;object-fit:contain;display:block;background:inherit}
 .draw-card{cursor:pointer;transform-style:preserve-3d;transition:transform .22s cubic-bezier(.22,1,.36,1);padding:0}
@@ -101,7 +108,7 @@ input:focus{border-color:rgba(245,199,107,.65);box-shadow:0 0 0 4px rgba(245,199
 .revealed{width:100%;aspect-ratio:713/1091;border-radius:16px;background:white;box-shadow:0 30px 90px rgba(0,0,0,.56);overflow:hidden}
 .revealed.is-landscape{aspect-ratio:1091/713}
 .revealed img{width:100%;height:100%;object-fit:contain;display:block;background:inherit}
-body[data-game="close-ba-tayo"] .card-back-face,body[data-game="close-ba-tayo"] .card-front-face,body[data-game="close-ba-tayo"] .revealed{background:#f4b4c2}
+body[data-game="close-ba-tayo"] .card-back-face,body[data-game="close-ba-tayo"] .card-front-face,body[data-game="close-ba-tayo"] .revealed{background:white}
 .done-row{text-align:center;margin-top:18px}
 .home{align-items:center;justify-content:flex-start;text-align:center;gap:28px;padding:22px 0 34px}
 .home-shell{display:flex;flex-direction:column;gap:30px;align-items:center;width:min(1240px,100%);margin:0 auto}
@@ -246,18 +253,18 @@ const CARD_IMAGES=[
 function numberedDeck(id,count,ext='.png'){return Array.from({length:count},(_,i)=>`GameDecks/${id}/card-${String(i+1).padStart(3,'0')}${ext}`)}
 const GAME_LIBRARY={
   'shot-puno':{id:'shot-puno',title:'Shot Puno',kicker:'Pinoy drinking game',meta:'100 cards',count:100,cover:'GameCovers/shot-puno.png',back:'GameBacks/shot-puno.jpg',orientation:'portrait',deck:numberedDeck('shot-puno',100)},
-  'sing-a-song':{id:'sing-a-song',title:'Sing a Song',kicker:'Music game',meta:'100 cards',count:100,cover:'GameCovers/sing-a-song.jpg',back:'GameBacks/sing-a-song.pdf',orientation:'portrait',deck:numberedDeck('sing-a-song',100)},
-  'double-shot-puno':{id:'double-shot-puno',title:'Double Shot Puno',kicker:'Expansion pack',meta:'50 cards',count:50,cover:'GameCovers/double-shot-puno.jpg',back:'GameBacks/double-shot-puno.pdf',orientation:'portrait',deck:numberedDeck('double-shot-puno',50)},
-  'close-ba-tayo':{id:'close-ba-tayo',title:'Close Ba Tayo? Close Na Tayo!',kicker:'Conversation starter',meta:'100 cards',count:100,cover:'GameCovers/close-ba-tayo.jpg',back:'GameBacks/close-ba-tayo.pdf',orientation:'landscape',deck:numberedDeck('close-ba-tayo',100)},
-  'swiftify':{id:'swiftify',title:'Swiftify',kicker:'The Eras Game',meta:'50 cards',count:50,cover:'GameCovers/swiftify.jpg',back:'GameBacks/swiftify.pdf',orientation:'portrait',deck:numberedDeck('swiftify',50)},
-  'biniverse':{id:'biniverse',title:'Biniverse',kicker:'BINI card game',meta:'50 cards',count:50,cover:'GameCovers/biniverse.jpg',back:'GameBacks/biniverse.pdf',orientation:'portrait',deck:numberedDeck('biniverse',50)},
-  'himym':{id:'himym',title:'How I Met Your Mother',kicker:'Trivia game',meta:'50 cards',count:50,cover:'GameCovers/himym.jpg',back:'GameBacks/himym.pdf',orientation:'portrait',deck:numberedDeck('himym',50)}
+  'sing-a-song':{id:'sing-a-song',title:'Sing a Song',kicker:'Music game',meta:'100 cards',count:100,cover:'GameCovers/sing-a-song.jpg',back:'GameBacks/sing-a-song.jpg',orientation:'portrait',deck:numberedDeck('sing-a-song',100)},
+  'double-shot-puno':{id:'double-shot-puno',title:'Double Shot Puno',kicker:'Expansion pack',meta:'50 cards',count:50,cover:'GameCovers/double-shot-puno.jpg',back:'GameBacks/double-shot-puno.jpg',orientation:'portrait',deck:numberedDeck('double-shot-puno',50)},
+  'close-ba-tayo':{id:'close-ba-tayo',title:'Close Ba Tayo? Close Na Tayo!',kicker:'Conversation starter',meta:'100 cards',count:100,cover:'GameCovers/close-ba-tayo.jpg',back:'GameBacks/close-ba-tayo.jpg',orientation:'landscape',deck:numberedDeck('close-ba-tayo',100)},
+  'swiftify':{id:'swiftify',title:'Swiftify',kicker:'The Eras Game',meta:'50 cards',count:50,cover:'GameCovers/swiftify.jpg',back:'GameBacks/swiftify.jpg',orientation:'portrait',deck:numberedDeck('swiftify',50)},
+  'biniverse':{id:'biniverse',title:'Biniverse',kicker:'BINI card game',meta:'50 cards',count:50,cover:'GameCovers/biniverse.jpg',back:'GameBacks/biniverse.jpg',orientation:'portrait',deck:numberedDeck('biniverse',50)},
+  'himym':{id:'himym',title:'How I Met Your Mother',kicker:'Trivia game',meta:'50 cards',count:50,cover:'GameCovers/himym.jpg',back:'GameBacks/himym.jpg',orientation:'portrait',deck:numberedDeck('himym',50)}
 };
 const GAME_ORDER=['shot-puno','sing-a-song','double-shot-puno','close-ba-tayo','swiftify','biniverse','himym'];
 const RANDOM_NAMES=['The Closer','Main Character','Shot Caller','Karaoke Queen','Plot Twist','Table Captain','Chaos Coordinator','Soft Launch','The Wildcard','Last Card Boss','Miss Congeniality','Mr. Cheers','The Ringleader','Late Joiner','Truth Magnet','Snack Master','Drama Free','The Comeback'];
 let playerCount=4,deck=[],drawIndex=0,soundOn=true,isFlipping=false,players=[],currentPlayerIndex=0,advanceTurnAfterClose=false,currentGameId='shot-puno';
 function currentGame(){return GAME_LIBRARY[currentGameId]||GAME_LIBRARY['shot-puno']}
-function backMediaHTML(src){return src.toLowerCase().endsWith('.pdf')?`<object data="${src}#toolbar=0&navpanes=0&scrollbar=0&view=Fit" type="application/pdf" aria-label="Card back"></object>`:`<img src="${src}" alt="Card back">`}
+function backMediaHTML(src){return `<img src="${src}" alt="Card back">`}
 function backFaceClass(){const id=currentGame().id;return 'card-back-face'+(id==='shot-puno'?' is-shot-puno':'')+(id==='close-ba-tayo'?' is-close-ba-tayo':'')}
 function cardBackHTML(){return `<div class="${backFaceClass()}">${backMediaHTML(currentGame().back)}</div>`}
 function topCardHTML(front){return `<div class="${backFaceClass()}">${backMediaHTML(currentGame().back)}</div>`}
