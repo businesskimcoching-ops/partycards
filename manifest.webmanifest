@@ -1,0 +1,20 @@
+{
+  "name": "PartyCards",
+  "short_name": "PartyCards",
+  "description": "Premium mobile party card games by PartyCards.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#120f14",
+  "theme_color": "#120f14",
+  "categories": ["games", "entertainment"],
+  "icons": [
+    {
+      "src": "partycards-01.png",
+      "sizes": "2048x2048",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

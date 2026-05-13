@@ -3,6 +3,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="theme-color" content="#120f14"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-title" content="PartyCards"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<link rel="manifest" href="manifest.webmanifest"/>
+<link rel="apple-touch-icon" href="partycards-01.png"/>
 <title>PartyCards Premium</title>
 <style>
 :root{
@@ -331,6 +338,9 @@ function closeModal(){const modal=document.getElementById('modal');const wasActi
 function toggleSound(){soundOn=!soundOn;document.getElementById('soundBtnHome').textContent=soundOn?'Sound On':'Sound Off';document.getElementById('soundBtnGame').textContent=soundOn?'Sound On':'Sound Off'}
 function runSelfTests(){console.assert(GAME_ORDER.length===7,'seven PartyCards games available');console.assert(currentGame().deck.length===100,'Shot Puno opens with 100 cards');console.assert(GAME_LIBRARY['sing-a-song'].deck.length===100,'Sing a Song has 100 cards')}
 renderGameCatalog();renderPlayerControls();renderNameInputs();syncGameLabels();players=['Player 1','Player 2','Player 3','Player 4'];shuffleDeck();updateTurnDisplay();runSelfTests();
+if('serviceWorker' in navigator && location.protocol !== 'file:'){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
 </script>
 </body>
 </html>
