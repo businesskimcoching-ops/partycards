@@ -36,6 +36,7 @@ npx cap open ios
 - Create or attach a release upload key.
 - Copy `android/keystore.properties.example` to `android/keystore.properties` and fill in the private signing values. Do not commit `keystore.properties` or any `.jks` key file.
 - Build a signed Android App Bundle (`.aab`).
+- Current local signed bundle output path: `android/app/build/outputs/bundle/release/app-release.aab`.
 - Upload the `.aab` in Google Play Console.
 - Complete store listing, screenshots, content rating, Data safety, target audience, and privacy policy URL.
 

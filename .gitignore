@@ -8,5 +8,6 @@ ios/App/build/
 ios/DerivedData/
 *.keystore
 *.jks
+android/keystore.properties
 *.p12
 *.mobileprovision
